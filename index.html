@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>INR to Bitcoin Converter and QR Code Generator</title>
+</head>
+<body>
+
+  <h2>INR to Bitcoin Converter and Transaction QR Code</h2>
+
+  <!-- Input for INR Amount -->
+  <label for="inrAmount">Amount in INR: </label>
+  <input type="number" id="inrAmount" placeholder="Enter INR amount">
+  
+  <!-- Button to Convert to Bitcoin and Generate QR -->
+  <button onclick="convertAndGenerateQR()">Convert and Generate QR</button>
+
+  <!-- Output Bitcoin amount -->
+  <p id="btcAmount"></p>
+
+  <!-- Div for QR Code -->
+  <div id="qrcode"></div>
+
+  <!-- Include QRCode.js library from CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+  <script>
+    // Example conversion rate (INR to BTC)
+    const conversionRate = 3000000; // Example: 1 BTC = 3,000,000 INR
+
+    function convertAndGenerateQR() {
+      // Get the INR amount from input
+      const inrAmount = document.getElementById('inrAmount').value;
+      
+      if (!inrAmount || inrAmount <= 0) {
+        alert('Please enter a valid INR amount.');
+        return;
+      }
+
+      // Convert INR to Bitcoin
+      const btcAmount = (inrAmount / conversionRate).toFixed(8); // Convert and format to 8 decimal places
+
+      // Display the converted BTC amount
+      document.getElementById('btcAmount').innerText = `Equivalent Bitcoin: ${btcAmount} BTC`;
+
+      // Example Bitcoin address (replace with actual)
+      const bitcoinAddress = 'your-bitcoin-address-here';
+
+      // Generate Bitcoin URI
+      const bitcoinUri = `bitcoin:${bitcoinAddress}?amount=${btcAmount}`;
+
+      // Generate QR code for the transaction
+      const qrcodeElement = document.getElementById('qrcode');
+      qrcodeElement.innerHTML = ''; // Clear the previous QR code
+      const qrCode = new QRCode(qrcodeElement, {
+        text: bitcoinUri,
+        width: 200,
+        height: 200,
+      });
+
+      console.log(bitcoinUri); // Log the Bitcoin URI for reference
+    }
+  </script>
+
+</body>
+</html>
